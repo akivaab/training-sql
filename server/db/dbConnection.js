@@ -30,7 +30,7 @@ async function initialize() {
         body TEXT NOT NULL,
         post_id INT NOT NULL,
         PRIMARY KEY (id),
-        FOREIGN KEY (post_id) REFERENCES posts (id)
+        FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
       )`;
 
     await pool.query(createPostsTable);
