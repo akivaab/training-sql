@@ -20,7 +20,7 @@ async function initialize() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
         body TEXT NOT NULL,
         PRIMARY KEY (id)
-      );`;
+      )`;
 
     const createCommentsTable = `
       CREATE TABLE IF NOT EXISTS comments (
@@ -31,7 +31,7 @@ async function initialize() {
         post_id INT NOT NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (post_id) REFERENCES posts (id)
-      );`;
+      )`;
 
     await pool.query(createPostsTable);
     await pool.query(createCommentsTable);
