@@ -1,4 +1,4 @@
-const pool = require("..db/dbConnection");
+const pool = require("../db/dbConnection");
 
 async function getAllPosts(req, res) {
   try {
@@ -90,19 +90,30 @@ async function updatePost(req, res) {
       return res.status(400).json({ message: "ID was not provided" });
     }
 
-    const post = await Post.findById(req.params.id).exec();
-    if (!post) {
-      return res
-        .status(400)
-        .json({ message: `No post matches ID ${req.params.id}.` });
-    }
-    if (req.body.title) post.title = req.body.title;
-    if (req.body.author) post.author = req.body.author;
-    if (req.body.body) post.body = req.body.body;
-    if (req.body.comments) post.comments = req.body.comments;
-    const updatedPost = await post.save();
+    // const post = await Post.findById(req.params.id).exec();
+    // if (!post) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: `No post matches ID ${req.params.id}.` });
+    // }
+    // if (req.body.title) post.title = req.body.title;
+    // if (req.body.author) post.author = req.body.author;
+    // if (req.body.body) post.body = req.body.body;
+    // if (req.body.comments) post.comments = req.body.comments;
+    // const updatedPost = await post.save();
 
-    res.status(200).json(updatedPost);
+    await pool.query(
+      `
+      UPDATE posts
+      SET title = ?, author = ?, body = ?
+      WHERE id = ?
+      `,
+      [req.body.title, req.body.author, req.body.body, req.params.id]
+    );
+
+    //insert new comments into comments table
+
+    res.status(200).json(/*updatedPost*/);
   } catch (err) {
     res.status(500).json({ message: "Failed to update post" });
   }
