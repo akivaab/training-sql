@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import Header from "./Header";
-import PostList from "./PostList";
-import CreatePost from "./CreatePost";
-import PostDetails from "./PostDetails";
-import ErrorGeneral from "./ErrorGeneral";
-import Footer from "./Footer";
-import ErrorSpecific from "./ErrorSpecific";
+import Header from "./shared/Header";
+import Footer from "./shared/Footer";
+import PostList from "./pages/PostList";
+import CreatePost from "./pages/CreatePost";
+import PostDetails from "./pages/PostDetails";
+import ErrorGeneral from "./errors/ErrorGeneral";
+import ErrorSpecific from "./errors/ErrorSpecific";
 
 function App() {
   const [posts, setPosts] = useState(null);

@@ -2,8 +2,8 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import ErrorGeneral from "./ErrorGeneral";
 import Comments from "./Comments";
+import ErrorGeneral from "../errors/ErrorGeneral";
 
 function PostDetails({ posts, onDelete, onUpdate }) {
   const navigate = useNavigate();
