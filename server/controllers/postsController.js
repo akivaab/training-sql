@@ -17,13 +17,6 @@ async function createPost(req, res) {
     return res.status(400).json({ message: "Required fields not provided" });
   }
   try {
-    // const newPost = await Post.create({
-    //   title: req.body.title,
-    //   author: req.body.author,
-    //   date: req.body.date,
-    //   body: req.body.body,
-    //   comments: req.body.comments,
-    // });
     const [results] = await pool.query(
       `
       INSERT INTO posts (title, author, body)
@@ -40,6 +33,7 @@ async function createPost(req, res) {
       `,
       [results.insertId]
     );
+    newPost.comments = [];
 
     res.status(201).json(newPost);
   } catch (err) {
