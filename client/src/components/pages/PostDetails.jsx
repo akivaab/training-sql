@@ -1,9 +1,9 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import Comments from "./Comments";
 import ErrorGeneral from "../errors/ErrorGeneral";
+import { getPost } from "../../api/postApi";
 
 function PostDetails({ posts, onDelete, onUpdate }) {
   const navigate = useNavigate();
@@ -15,22 +15,18 @@ function PostDetails({ posts, onDelete, onUpdate }) {
   const [author, setAuthor] = useState(post?.author || "");
   const [body, setBody] = useState(post?.body || "");
 
-  const baseURL = `${import.meta.env.VITE_API_URL}/posts`;
-
   useEffect(() => {
-    const getPost = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/${id}`);
-        setPost(res.data);
-        setTitle(res.data.title);
-        setAuthor(res.data.author);
-        setBody(res.data.body);
-      } catch (err) {
-      } finally {
-        setIsLoading(false);
+    const handleGetPost = async () => {
+      const data = await getPost(id);
+      if (data) {
+        setPost(data);
+        setTitle(data.title);
+        setAuthor(data.author);
+        setBody(data.body);
       }
+      setIsLoading(false);
     };
-    getPost();
+    handleGetPost();
   }, [posts]);
 
   if (!post && !isLoading) {
