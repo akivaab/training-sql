@@ -1,9 +1,10 @@
 const pool = require("../db/dbConnection");
+const { getAllPostObjects, getPostObject } = require("../db/queryPostObject");
 
 async function getAllPosts(req, res) {
   try {
-    const [posts] = await pool.query(`SELECT * FROM posts`);
-    if (posts.length === 0) {
+    const posts = await getAllPostObjects();
+    if (!posts) {
       return res.status(204).json({ message: "No posts available" });
     }
     res.status(200).json(posts);
@@ -25,16 +26,7 @@ async function createPost(req, res) {
       [req.body.title, req.body.author, req.body.body]
     );
 
-    const [newPost] = await pool.query(
-      `
-      SELECT * 
-      FROM posts 
-      WHERE id = ?
-      `,
-      [results.insertId]
-    );
-    newPost.comments = [];
-
+    const newPost = await getPostObject(results.insertId);
     res.status(201).json(newPost);
   } catch (err) {
     res.status(500).json({ message: "Failed to create new post" });
@@ -42,36 +34,16 @@ async function createPost(req, res) {
 }
 
 async function getPost(req, res) {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: "ID was not provided" });
+  }
   try {
-    if (!req?.params?.id) {
-      return res.status(400).json({ message: "ID was not provided" });
-    }
-
-    const [posts] = await pool.query(
-      `
-      SELECT *
-      FROM posts
-      WHERE id = ?
-      `,
-      [req.params.id]
-    );
-    if (posts.length === 0) {
+    const post = await getPostObject(req.params.id);
+    if (!post) {
       return res
         .status(404)
         .json({ message: `No post matches ID ${req.params.id}.` });
     }
-    const post = posts[0];
-
-    const [postComments] = await pool.query(
-      `
-      SELECT *
-      FROM comments
-      WHERE post_id = ?
-      `,
-      [req.params.id]
-    );
-    post.comments = postComments.length > 0 ? postComments : [];
-
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch post" });
@@ -79,11 +51,10 @@ async function getPost(req, res) {
 }
 
 async function updatePost(req, res) {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: "ID was not provided" });
+  }
   try {
-    if (!req?.params?.id) {
-      return res.status(400).json({ message: "ID was not provided" });
-    }
-
     // const post = await Post.findById(req.params.id).exec();
     // if (!post) {
     //   return res
@@ -114,25 +85,16 @@ async function updatePost(req, res) {
 }
 
 async function deletePost(req, res) {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: "ID was not provided" });
+  }
   try {
-    if (!req?.params?.id) {
-      return res.status(400).json({ message: "ID was not provided" });
-    }
-
-    const [posts] = await pool.query(
-      `
-      SELECT * 
-      FROM posts
-      WHERE id = ?
-      `,
-      [req.params.id]
-    );
-    if (posts.length === 0) {
+    const post = getPostObject(req.params.id);
+    if (!post) {
       return res
         .status(404)
         .json({ message: `No post matches ID ${req.params.id}.` });
     }
-    const post = posts[0];
 
     await pool.query(
       `
