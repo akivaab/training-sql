@@ -9,15 +9,20 @@ function Comments({ post, onUpdate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (commentAuthor && commentBody) {
-      const updatedComments = [
-        ...post.comments,
-        {
-          author: commentAuthor,
-          date: Date.now(),
-          body: commentBody
-        }
-      ];
-      const updatedPost = { ...post, comments: updatedComments };
+      // const updatedComments = [
+      //   ...post.comments,
+      //   {
+      //     author: commentAuthor,
+      //     date: Date.now(),
+      //     body: commentBody
+      //   }
+      // ];
+      // const updatedPost = { ...post, comments: updatedComments };
+      const updatedPost = {
+        ...post,
+        newComment: { author: commentAuthor, body: commentBody }
+      };
+
       onUpdate(updatedPost);
       setIsCommenting(false);
       setCommentAuthor("");
