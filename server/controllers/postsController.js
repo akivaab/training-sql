@@ -75,6 +75,11 @@ async function updatePost(req, res) {
     }
 
     const post = await getPostObject(req.params.id);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: `No post matches ID ${req.params.id}.` });
+    }
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json({ message: "Failed to update post" });
