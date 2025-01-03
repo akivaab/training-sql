@@ -1,14 +1,14 @@
 const pool = require("../db/dbConnection");
 
-export async function getPostObject(id) {
+async function getPostObject(id) {
   try {
     //get post matching id
     const [posts] = await pool.query(
       `
-    SELECT *
-    FROM posts
-    WHERE id = ?
-    `,
+      SELECT *
+      FROM posts
+      WHERE id = ?
+      `,
       [id]
     );
     if (posts.length === 0) {
@@ -19,10 +19,10 @@ export async function getPostObject(id) {
     //get comments for post
     const [postComments] = await pool.query(
       `
-    SELECT *
-    FROM comments
-    WHERE post_id = ?
-    `,
+      SELECT *
+      FROM comments
+      WHERE post_id = ?
+      `,
       [id]
     );
 
@@ -50,24 +50,24 @@ export async function getPostObject(id) {
   }
 }
 
-export async function getAllPostObjects() {
+async function getAllPostObjects() {
   try {
     //get all posts
     const [rows] = await pool.query(
       `
-    SELECT 
-      p.id AS post_id, 
-      p.title AS post_title, 
-      p.author AS post_author, 
-      p.created_at AS post_created_at, 
-      p.body AS post_body,
-      c.id AS comment_id, 
-      c.author AS comment_author, 
-      c.created_at AS comment_created_at, 
-      c.body AS comment_body
-    FROM posts AS p
-    LEFT JOIN comments AS c ON p.id = c.post_id
-    `
+      SELECT 
+        p.id AS post_id, 
+        p.title AS post_title, 
+        p.author AS post_author, 
+        p.created_at AS post_created_at, 
+        p.body AS post_body,
+        c.id AS comment_id, 
+        c.author AS comment_author, 
+        c.created_at AS comment_created_at, 
+        c.body AS comment_body
+      FROM posts AS p
+      LEFT JOIN comments AS c ON p.id = c.post_id
+      `
     );
     if (rows.length === 0) {
       return null;
@@ -75,7 +75,7 @@ export async function getAllPostObjects() {
 
     const posts = [];
     for (const row of rows) {
-      const post = posts.find((p) => p._id === row.post_id);
+      let post = posts.find((p) => p._id === row.post_id);
 
       if (!post) {
         post = {
@@ -102,3 +102,5 @@ export async function getAllPostObjects() {
     throw err;
   }
 }
+
+module.exports = { getAllPostObjects, getPostObject };
