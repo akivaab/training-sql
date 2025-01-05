@@ -71,7 +71,7 @@ function Comments({ post, onUpdate }) {
       {post.comments.length > 0 ? (
         post.comments.map((comment) => (
           <div
-            key={comment._id}
+            key={comment.id}
             className="my-1 rounded border-2 p-4 shadow transition-shadow hover:shadow-md"
           >
             <h3 className="flex items-start text-sm font-light text-slate-700">

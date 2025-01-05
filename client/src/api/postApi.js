@@ -44,7 +44,7 @@ export async function updatePost(updatedPost) {
   let data = null;
   let error = null;
   try {
-    const res = await axios.put(`${baseURL}/${updatedPost._id}`, updatedPost);
+    const res = await axios.put(`${baseURL}/${updatedPost.id}`, updatedPost);
     data = res.data;
   } catch (err) {
     if (err.code === AxiosError.ERR_NETWORK) {
@@ -61,7 +61,7 @@ export async function deletePost(deletedPost) {
   let data = null;
   let error = null;
   try {
-    const res = await axios.delete(`${baseURL}/${deletedPost._id}`);
+    const res = await axios.delete(`${baseURL}/${deletedPost.id}`);
     data = res.data;
   } catch (err) {
     if (err.code === AxiosError.ERR_NETWORK) {

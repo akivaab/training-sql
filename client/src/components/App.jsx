@@ -40,7 +40,7 @@ function App() {
       setError(error);
     } else {
       setPosts((prevPosts) =>
-        prevPosts.map((post) => (post._id === data._id ? data : post))
+        prevPosts.map((post) => (post.id === data.id ? data : post))
       );
     }
   };
@@ -50,9 +50,7 @@ function App() {
     if (error) {
       setError(error);
     } else {
-      setPosts((prevPosts) =>
-        prevPosts.filter((post) => post._id !== data._id)
-      );
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== data.id));
     }
   };
 

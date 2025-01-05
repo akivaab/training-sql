@@ -8,10 +8,10 @@ function PostList({ posts }) {
         posts.length > 0 &&
         posts.map((post) => (
           <div
-            key={post._id}
+            key={post.id}
             className="mb-3 rounded-md border-2 p-4 shadow transition-shadow hover:shadow-md"
           >
-            <Link to={`${post._id}`}>
+            <Link to={`${post.id}`}>
               <h2 className="truncate font-tahoma text-xl font-medium text-green-700 sm:whitespace-normal sm:break-words">
                 {post.title}
               </h2>

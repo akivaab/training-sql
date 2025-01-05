@@ -30,6 +30,7 @@ async function getPostObject(id) {
       postComments.length > 0
         ? postComments.map((comment) => {
             return {
+              id: comment.id,
               author: comment.author,
               date: comment.created_at,
               body: comment.body,
@@ -38,7 +39,7 @@ async function getPostObject(id) {
         : [];
 
     return {
-      _id: post.id,
+      id: post.id,
       title: post.title,
       author: post.author,
       date: post.created_at,
@@ -75,11 +76,11 @@ async function getAllPostObjects() {
 
     const posts = [];
     for (const row of rows) {
-      let post = posts.find((p) => p._id === row.post_id);
+      let post = posts.find((p) => p.id === row.post_id);
 
       if (!post) {
         post = {
-          _id: row.post_id,
+          id: row.post_id,
           title: row.post_title,
           author: row.post_author,
           date: row.post_created_at,
@@ -91,6 +92,7 @@ async function getAllPostObjects() {
 
       if (row.comment_id) {
         post.comments.push({
+          id: row.comment_id,
           author: row.comment_author,
           date: row.comment_created_at,
           body: row.comment_body,
