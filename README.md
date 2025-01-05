@@ -7,12 +7,20 @@ A simple blog application with CRUD operations created using React and Express a
 To get a copy of the repository on your local machine, open your terminal and run the following command:
 
 ```
-git clone https://github.com/akivaab/training-node-express.git
+git clone https://github.com/akivaab/training-sql.git
 ```
 
 Or, you can download the ZIP file from the GitHub page.
 
 ## Running the Project
+
+#### Setup MySQL Database
+
+This application requires MySQL to be running in order to work. Install MySQL if you don't have it already, and create a database for the application to have access to.
+
+```
+CREATE DATABASE database_name;
+```
 
 #### Add .env Files
 
