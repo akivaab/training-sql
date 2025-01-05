@@ -13,9 +13,7 @@ function CreatePost({ onCreate }) {
       onCreate({
         title: title,
         author: author,
-        //date: Date.now(),
-        body: body //,
-        //comments: []
+        body: body
       });
       setTitle("");
       setAuthor("");

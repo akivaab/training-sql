@@ -2,7 +2,6 @@ const pool = require("../db/dbConnection");
 
 async function getPostObject(id) {
   try {
-    //get post matching id
     const [posts] = await pool.query(
       `
       SELECT *
@@ -16,7 +15,6 @@ async function getPostObject(id) {
     }
     const post = posts[0];
 
-    //get comments for post
     const [postComments] = await pool.query(
       `
       SELECT *
@@ -53,7 +51,6 @@ async function getPostObject(id) {
 
 async function getAllPostObjects() {
   try {
-    //get all posts
     const [rows] = await pool.query(
       `
       SELECT 
